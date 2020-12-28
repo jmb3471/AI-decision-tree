@@ -1,0 +1,62 @@
+Writeup: Jonathan Baxley
+Features:
+For my features at first I tried to search for key features in both english and dutch but when I ran my decision
+trees I had very meh result with about 50% accuracy which is as good as random guessing. So after this I decided to
+change my features to only look for features in english and try to determine language based off of that. My features are
+contains the word The
+contains the word You
+contains the word An
+contains the word Be
+contains the word Of
+contains the word And
+contains the word This
+contains the word That
+contains the word With
+contains the word As
+contains the word For
+I explicitly picked the most common english words that were also not in the dutch language. When doing this I
+researched what oxford dictionary said was the most common words in the english language, and cross referenced them
+with the dutch dictionary to make sure they didn't intersect. For example, I wanted to use He but that is also a common
+word in dutch so I excluded it.
+
+Decision Tree:
+While building my decision tree, I used the pseudo-code from the book as a guide. So I used the same parameters the book
+used which were examples, attributes, and parent. The algorithm for my tree was essentially, while there were still
+attributes and while there were still examples, find the best attribute, add it to the tree, and then remove anything
+with the attribute as true from the list of examples. If attributes was empty then it would guess by using parent to
+figure out the most common language. My tree was essentially a binary search tree that grew to the right. The left
+leaf nodes would always be english while the right nodes would be another feature until the last right leaf node
+which would be dutch. Essentially it would look for one of the features to be true and if any were assume it is english,
+if it got to the end of the tree, then the language must be dutch.
+
+Decision Tree testing:
+My decision tree testing came out very good. With the example file given I had a 100 percent success rate of identifying
+between dutch and english. With my own testing using a 400 word file I got about a 94% success rate which is still
+acceptable.
+
+Adaboost:
+For adaboost, I did not follow the pseudo-code from the book as I struggled to understand it the way they were doing it.
+I used my own online research to formulate my way of doing it. To be totally honest, I'm not 100 percent confident that
+I properly implemented adaboost but I am confident with the results. Essentially what I do is I take a list of
+attributes as input along with a training file. I iterate through the list of attributes, calculate a weight for each
+attribute, put the attribute with its weight in an ensemble, and add it to the list of ensembles. When I go to predict
+the result I look through the sentence and features, if a feature is in a sentence then I add it to the sum of weights.
+If the sum is close to 0 then it should be dutch, anything else should be english. For my decision stumps, I found that
+ContainsThe, ContainsOf, ContainsAnd had the highest weight and were the most useful features while ContainsYou was one
+of the worst features to be used. This makes sense based on their order of usage in the english language.
+
+Adaboost testing:
+When it came to adaboost testing my results came out a little worse than my decision tree, which I think might be due
+to my weights calculation being off. With the 400 word file I used to test and the example file, I had about a
+90% success rate.
+
+Things to know:
+1. One big thing is I'm not confident in my implementation of Adaboost since I kind of went my own road with it. I feel
+like I had the idea of adaboost down with how to use the decision stumps with some small errors down. I would like
+to know if I have the right idea or if I went the completely wrong road.
+
+2. Features.py is used by both predict.py and train.py for preprocessing and postprocessing the data.
+
+3. Last lab I lost points for "Hardcoding" with issues of it not working on all computers. I'm trying to avoid that this
+time so I tested it on a different computer, so hopefully that's not an issue. But I tried to make sure to not hardcode
+anything, and it should work this time. If not, I'm not sure what I did wrong.
